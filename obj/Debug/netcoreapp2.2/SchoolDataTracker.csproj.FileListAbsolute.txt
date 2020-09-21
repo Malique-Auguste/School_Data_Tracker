@@ -1,0 +1,11 @@
+C:\Users\malique\important_stuff\c#\SchoolDataTracker\bin\Debug\netcoreapp2.2\SchoolDataTracker.deps.json
+C:\Users\malique\important_stuff\c#\SchoolDataTracker\bin\Debug\netcoreapp2.2\SchoolDataTracker.runtimeconfig.json
+C:\Users\malique\important_stuff\c#\SchoolDataTracker\bin\Debug\netcoreapp2.2\SchoolDataTracker.runtimeconfig.dev.json
+C:\Users\malique\important_stuff\c#\SchoolDataTracker\bin\Debug\netcoreapp2.2\SchoolDataTracker.dll
+C:\Users\malique\important_stuff\c#\SchoolDataTracker\bin\Debug\netcoreapp2.2\SchoolDataTracker.pdb
+C:\Users\malique\important_stuff\c#\SchoolDataTracker\obj\Debug\netcoreapp2.2\SchoolDataTracker.csprojAssemblyReference.cache
+C:\Users\malique\important_stuff\c#\SchoolDataTracker\obj\Debug\netcoreapp2.2\SchoolDataTracker.csproj.CoreCompileInputs.cache
+C:\Users\malique\important_stuff\c#\SchoolDataTracker\obj\Debug\netcoreapp2.2\SchoolDataTracker.AssemblyInfoInputs.cache
+C:\Users\malique\important_stuff\c#\SchoolDataTracker\obj\Debug\netcoreapp2.2\SchoolDataTracker.AssemblyInfo.cs
+C:\Users\malique\important_stuff\c#\SchoolDataTracker\obj\Debug\netcoreapp2.2\SchoolDataTracker.dll
+C:\Users\malique\important_stuff\c#\SchoolDataTracker\obj\Debug\netcoreapp2.2\SchoolDataTracker.pdb
