@@ -31,7 +31,7 @@ namespace SchoolDataTracker
 
         static Time_Table Initialise_Time_Table()
         {
-            Time_Table time_table = new Time_Table(5, 5, 30, 30, new Subject[] { Math, Physics, Chemistry, Business, English, Art, Music });
+            Time_Table time_table = new Time_Table(2, 5, 30, 30, new Subject[] { Math, Physics, Chemistry, Business, English, Art, Music });
             for (int i = 0; i < time_table.subjects.Length; i++)
             {
                 time_table.subjects[i].SetPopularity(school.Get_Subject_Popularity(time_table.subjects[i]));
@@ -46,9 +46,8 @@ namespace SchoolDataTracker
             Time_Table time_table = Initialise_Time_Table();
             time_table.Generate_Time_Table_Data();
             time_table.Print_Table();
-            school.time_table = time_table;
+            school.time_table.Add(time_table);
             Console.WriteLine();
-            //Console.ReadKey();
         }
     }
 }

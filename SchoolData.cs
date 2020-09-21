@@ -8,13 +8,14 @@ namespace Data
 {
     class School
     {
-        public string name;
-        public Teacher[] teachers;
-        public Student[] students;
-        public Time_Table time_table;
+        public string name; //name of the school
+        public Teacher[] teachers; //teachers at the school
+        public Student[] students; //students at the school
+        public List<Time_Table> time_table = new List<Time_Table>(); //time table for each form arranged in asceding order (form 1 first)
 
         public School(string name, Teacher[] teachers, Student[] students)
         {
+            //Constructor
             this.name = name;
             this.teachers = teachers;
             this.students = students;
@@ -22,6 +23,7 @@ namespace Data
 
         public int Get_Subject_Popularity(Subject subject_)
         {
+            //Returns the number of students taking a subject
             int popularity = 0;
             for (int i = 0; i < students.Length; i++)
             {
@@ -45,11 +47,12 @@ namespace Data
 
     class Teacher
     {
-        public string name;
-        public Subject subject;
+        public string name; //name of the teacher
+        public Subject subject; //subject that the teacher teaches
 
         public Teacher(string name, Subject subject)
         {
+            //Constructor
             this.name = name;
             this.subject = subject;
         }
@@ -62,16 +65,18 @@ namespace Data
 
     class Student
     {
-        public string name;
-        public int form;
-        public Subject[] subjects;
+        public string name; //name of the student
+        public int form; //form that the student is in
+        public Subject[] subjects; //subjects that the student studies
 
         public Student(string name, int form, Subject[] subjects)
         {
+            //Constructor
             this.name = name;
             this.form = form;
             this.subjects = subjects;
         }
+        
         public override string ToString()
         {
             return String.Format("{0} studies {1} subjects.", name, subjects.Length);
@@ -80,21 +85,22 @@ namespace Data
 
     class Time_Table
     {
-        public int number_of_days; //per week
-        public float day_start;
+        public int number_of_days; //days that the table spans over
+        public float day_start; //time that the school day starts at
         public float period_length; //in minutes
         public int number_of_periods; //per day
-        public Subject[] subjects;
-        public List<string> time_table_data = new List<string>();
-        private string table_string = "";
+        public Subject[] subjects; //subjects that are in the time table
+        public List<Subject> time_table_data = new List<Subject>(); //the order that the subjects are in the time table
+        private string table_string = ""; //the time table in  string format
 
         public Time_Table(int number_of_days, int number_of_periods, float day_start, float period_length, Subject[] subjects)
         { 
+            //Constructor
             if(subjects.Length > number_of_days * number_of_periods)
             {
-                Console.WriteLine("Error Encountered: too much subjects for time table size.");
-                Console.Read();
-                System.Environment.Exit(1);
+                //if there are not enough periods for there to be a class fo reach subject atleast once
+                //an error is thrown and the softwares crashes
+                throw new SystemException("too much subjects for time table size.");
             }
 
             this.number_of_days = number_of_days;
@@ -106,6 +112,7 @@ namespace Data
         
         public List<int> Generate_Number_Of_Subject_Periods()
         {
+            //this generates the number of periods that a subject will have in the time table
             subjects.OrderBy(x => x.importance);
            
             int total_num_of_periods = number_of_periods * number_of_days;
@@ -113,6 +120,8 @@ namespace Data
             List<int> periods = new List<int>();
             for (int i = 0; i < subjects.Length; i++)
             {
+                //The importance of a subject is multiplied by the ratio of available periods to the ideal amount of periods
+                //There is a minimum of 1
                 int temp = (int)(subjects[i].importance * ((float)total_num_of_periods / best_amount_of_periods));
                 if(temp == 0)
                 {
@@ -121,23 +130,12 @@ namespace Data
                 periods.Add(temp);
             }
 
-            /*
-            int j = 0;
-            while(total_num_of_periods - periods.Sum() > 0 && j != periods.Count)
-            {
-                if(subjects[j].Get_Popularity() > Subject.average_popularity)
-                {
-                    periods[j]++;
-                }
-                j++;
-            }
-            */
-
             return periods;
         }
 
         public List<T> Randomise_List<T>(List<T> list_)
         {
+            //Randomly orders list
             Random rnd = new Random();
             for (int i = 0; i < list_.Count; i++)
 			{
@@ -161,9 +159,9 @@ namespace Data
                     number_of_letters.Add(0);
                     for (int i = 0; i < number_of_days; i++)
                     {
-                        if(time_table_data[(number_of_periods * i) + j].Length - 1> number_of_letters[j])
+                        if(time_table_data[(number_of_periods * i) + j].name.Length - 1> number_of_letters[j])
                         {
-                            number_of_letters[j] = time_table_data[(number_of_periods * i) + j].Length - 1;
+                            number_of_letters[j] = time_table_data[(number_of_periods * i) + j].name.Length - 1;
                         }
                     }
                 }
@@ -172,22 +170,24 @@ namespace Data
                 int k = 0;
                 for (int i = 0; i < number_of_days; i++)
                 {
+                    if(i > 0)
+                    {
+                        builder.Append("\n\n");
+                    }
                     builder.Append(i + 1);
-                    builder.Append(" ");
                     for (int j = 0; j < number_of_periods; j++)
                     {
-                        int number_of_spaces = number_of_letters[j] - (time_table_data[k].Length - 1);
-                        builder.Append("|");
+                        int number_of_spaces = number_of_letters[j] - (time_table_data[k].name.Length - 1);
+                        builder.Append(" | ");
                         builder.Append(time_table_data[k]);
                         builder.Append(new string(' ',number_of_spaces));
                         k++;
                     }
-                    builder.Append("|");
-                    builder.Append("\n\n");
+                    builder.Append(" |");
                 }
                 table_string = builder.ToString();
             }
-
+            
             Console.WriteLine(table_string);
         }
         
@@ -199,14 +199,14 @@ namespace Data
 			{
                 for (int j = 0; j < periods[i]; j++)
 			    {
-                    time_table_data.Add(subjects[i].name + " ");
+                    time_table_data.Add(subjects[i]);
 			    }
 			}
 
             Subject Free_Period = new Subject("Free Period", 0);
             while(time_table_data.Count < number_of_days * number_of_periods)
             {
-                time_table_data.Add(Free_Period.name);
+                time_table_data.Add(Free_Period);
             }
             
             time_table_data = Randomise_List(time_table_data);
@@ -215,7 +215,7 @@ namespace Data
 
     class Subject
     {
-        public string name;
+        public string name; //name of subject
         private int importance_; //on a scale of 1-3, 3 is the most important
         public int importance
         {
@@ -228,15 +228,16 @@ namespace Data
             }
         }
 
-        private static List<string> subject_types = new List<string>();
-        private static List<int> subject_popularities = new List<int>();
-        public static float average_popularity = 1;
+        private static List<string> subject_types = new List<string>(); //static list conaining all of the subject names
+        private static List<int> subject_popularities = new List<int>(); //static list containing the subjects importance
 
         public Subject(string name, int importance)
         {
+            //Costructor
             this.name = name;
             this.importance = importance;
 
+            //If the subject is not already present in the subject types list it is added to the list
             if(!subject_types.Contains(name))
             {
                 subject_types.Add(name);
@@ -247,7 +248,6 @@ namespace Data
         public void SetPopularity(int num)
         {
             subject_popularities[subject_types.IndexOf(this.name)] += num;
-            average_popularity = (float)subject_popularities.Sum() / subject_popularities.Count;
         }
 
         public int Get_Popularity()
