@@ -45,8 +45,10 @@ namespace SchoolDataTracker
             Initialise_School();
             Time_Table time_table = Initialise_Time_Table();
             time_table.Generate_Time_Table_Data();
+            time_table.Print_Table();
+            school.time_table = time_table;
             Console.WriteLine();
-            Console.ReadKey();
+            //Console.ReadKey();
         }
     }
 }

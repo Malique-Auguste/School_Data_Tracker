@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Data;
 
 namespace Data
 {
@@ -85,6 +86,7 @@ namespace Data
         public int number_of_periods; //per day
         public Subject[] subjects;
         public List<string> time_table_data = new List<string>();
+        private string table_string = "";
 
         public Time_Table(int number_of_days, int number_of_periods, float day_start, float period_length, Subject[] subjects)
         { 
@@ -147,18 +149,58 @@ namespace Data
 
             return list_;
         }
+        
+        public void Print_Table()
+        {
+            if(table_string == "")
+            {
+                List<int> number_of_letters = new List<int>();
+                Console.WriteLine();
+                for (int j = 0; j < number_of_periods; j++)
+                {
+                    number_of_letters.Add(0);
+                    for (int i = 0; i < number_of_days; i++)
+                    {
+                        if(time_table_data[(number_of_periods * i) + j].Length - 1> number_of_letters[j])
+                        {
+                            number_of_letters[j] = time_table_data[(number_of_periods * i) + j].Length - 1;
+                        }
+                    }
+                }
 
+                StringBuilder builder = new StringBuilder();
+                int k = 0;
+                for (int i = 0; i < number_of_days; i++)
+                {
+                    builder.Append(i + 1);
+                    builder.Append(" ");
+                    for (int j = 0; j < number_of_periods; j++)
+                    {
+                        int number_of_spaces = number_of_letters[j] - (time_table_data[k].Length - 1);
+                        builder.Append("|");
+                        builder.Append(time_table_data[k]);
+                        builder.Append(new string(' ',number_of_spaces));
+                        k++;
+                    }
+                    builder.Append("|");
+                    builder.Append("\n\n");
+                }
+                table_string = builder.ToString();
+            }
+
+            Console.WriteLine(table_string);
+        }
+        
         public void Generate_Time_Table_Data()
         {
             List<int> periods = Generate_Number_Of_Subject_Periods();
+            
             for (int i = 0; i < subjects.Length; i++)
 			{
                 for (int j = 0; j < periods[i]; j++)
 			    {
-                    Console.Write(subjects[i]);
                     time_table_data.Add(subjects[i].name + " ");
 			    }
-                Console.WriteLine("");
 			}
 
             Subject Free_Period = new Subject("Free Period", 0);
@@ -168,17 +210,6 @@ namespace Data
             }
             
             time_table_data = Randomise_List(time_table_data);
-            int k = 0;
-            for (int i = 0; i < number_of_days; i++)
-			{
-                Console.WriteLine();
-                for (int j = 0; j < number_of_periods; j++)
-			    {
-                    Console.Write(" | " + time_table_data[k]);
-                    k++;
-			    }
-                Console.Write(" |");
-			}
         }
     }
 
