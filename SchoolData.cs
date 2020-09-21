@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Data;
 
-namespace Data
+namespace SchoolData
 {
     class School
     {
         public string name; //name of the school
-        public Teacher[] teachers; //teachers at the school
-        public Student[] students; //students at the school
-        public List<Time_Table> time_table = new List<Time_Table>(); //time table for each form arranged in asceding order (form 1 first)
+        public List<Teacher> teachers; //teachers at the school
+        public List<Student> students; //students at the school
+        public List<Time_Table> time_table = new List<Time_Table>(); //time table for each year arranged in asceding order (year 1 first)
 
-        public School(string name, Teacher[] teachers, Student[] students)
+        public School(string name, List<Teacher> teachers, List<Student> students)
         {
             //Constructor
             this.name = name;
@@ -25,9 +25,9 @@ namespace Data
         {
             //Returns the number of students taking a subject
             int popularity = 0;
-            for (int i = 0; i < students.Length; i++)
+            for (int i = 0; i < students.Count; i++)
             {
-                for (int j = 0; j < students[i].subjects.Length; j++)
+                for (int j = 0; j < students[i].subjects.Count; j++)
                 {
                     if (students[i].subjects[j] == subject_)
                     {
@@ -41,45 +41,70 @@ namespace Data
 
         public override string ToString()
         {
-            return String.Format("{0} has {1} teachers and {2} students.", name, teachers.Length, students.Length);
+            return String.Format("{0} has {1} teachers and {2} students.", name, teachers.Count, students.Count);
         }
     }
 
     class Teacher
     {
-        public string name; //name of the teacher
+        public bool male; //false=female
+        public string fname; //first name 
+        public string lname; //last name
         public Subject subject; //subject that the teacher teaches
+        public int experience; //1-3, 3 being a very experienced teacher
+        public List<int> years; //years that the teacher teaches
+        public int identification_number=-1;
 
-        public Teacher(string name, Subject subject)
+        public Teacher(bool male, string fname, string lname, Subject subject, int experience, List<int> years)
         {
             //Constructor
-            this.name = name;
+            this.male = male;
+            this.fname = fname;
+            this.lname = lname;
             this.subject = subject;
+            this.experience = experience;
+            this.years = years;
+        }
+
+        public string Get_Short_Name()
+        {
+            string name = "Mr.";
+            if(!male)
+            {
+                name = "Ms.";
+            }
+            return name + " " + fname[0] + "." + lname[0];
         }
 
         public override string ToString()
         {
-            return String.Format("{0} teaches {1}.", name, subject);
+            string name = "Mr.";
+            if(!male)
+            {
+                name = "Ms.";
+            }
+            return name + " " + fname + " " + lname;
         }
     }
 
     class Student
     {
         public string name; //name of the student
-        public int form; //form that the student is in
-        public Subject[] subjects; //subjects that the student studies
+        public int year; //year that the student is in
+        public List<Subject> subjects; //subjects that the student studies
+        public int identification_number=-1;
 
-        public Student(string name, int form, Subject[] subjects)
+        public Student(string name, int year, List<Subject> subjects)
         {
             //Constructor
             this.name = name;
-            this.form = form;
+            this.year = year;
             this.subjects = subjects;
         }
         
         public override string ToString()
         {
-            return String.Format("{0} studies {1} subjects.", name, subjects.Length);
+            return name;
         }
     }
 
@@ -89,14 +114,15 @@ namespace Data
         public float day_start; //time that the school day starts at
         public float period_length; //in minutes
         public int number_of_periods; //per day
-        public Subject[] subjects; //subjects that are in the time table
+        public List<Teacher> teachers;
+        public List<Subject> subjects; //subjects that are in the time table
         public List<Subject> time_table_data = new List<Subject>(); //the order that the subjects are in the time table
-        private string table_string = ""; //the time table in  string format
+        private string table_string = ""; //the time table in  string yearat
 
-        public Time_Table(int number_of_days, int number_of_periods, float day_start, float period_length, Subject[] subjects)
+        public Time_Table(int number_of_days, int number_of_periods, float day_start, float period_length, List<Subject> subjects)
         { 
             //Constructor
-            if(subjects.Length > number_of_days * number_of_periods)
+            if(subjects.Count > number_of_days * number_of_periods)
             {
                 //if there are not enough periods for there to be a class fo reach subject atleast once
                 //an error is thrown and the softwares crashes
@@ -118,7 +144,7 @@ namespace Data
             int total_num_of_periods = number_of_periods * number_of_days;
             int best_amount_of_periods = subjects.Sum(x => x.importance);
             List<int> periods = new List<int>();
-            for (int i = 0; i < subjects.Length; i++)
+            for (int i = 0; i < subjects.Count; i++)
             {
                 //The importance of a subject is multiplied by the ratio of available periods to the ideal amount of periods
                 //There is a minimum of 1
@@ -152,6 +178,7 @@ namespace Data
         {
             if(table_string == "")
             {
+                //Determines the number of letters in each column s that all the coloumns are spaced out well
                 List<int> number_of_letters = new List<int>();
                 Console.WriteLine();
                 for (int j = 0; j < number_of_periods; j++)
@@ -159,13 +186,15 @@ namespace Data
                     number_of_letters.Add(0);
                     for (int i = 0; i < number_of_days; i++)
                     {
-                        if(time_table_data[(number_of_periods * i) + j].name.Length - 1> number_of_letters[j])
+                        int index = (number_of_periods * i) + j;
+                        if(time_table_data[index].ToString().Length - 1> number_of_letters[j])
                         {
-                            number_of_letters[j] = time_table_data[(number_of_periods * i) + j].name.Length - 1;
+                            number_of_letters[j] = time_table_data[index].ToString().Length - 1;
                         }
                     }
                 }
 
+                //creates string for table
                 StringBuilder builder = new StringBuilder();
                 int k = 0;
                 for (int i = 0; i < number_of_days; i++)
@@ -177,7 +206,7 @@ namespace Data
                     builder.Append(i + 1);
                     for (int j = 0; j < number_of_periods; j++)
                     {
-                        int number_of_spaces = number_of_letters[j] - (time_table_data[k].name.Length - 1);
+                        int number_of_spaces = number_of_letters[j] - (time_table_data[k].ToString().Length - 1);
                         builder.Append(" | ");
                         builder.Append(time_table_data[k]);
                         builder.Append(new string(' ',number_of_spaces));
@@ -191,11 +220,18 @@ namespace Data
             Console.WriteLine(table_string);
         }
         
-        public void Generate_Time_Table_Data()
+        public void Generate_Time_Table_Data(List<Teacher> teachers)
         {
+            //generate the time table
             List<int> periods = Generate_Number_Of_Subject_Periods();
+
+            for (int i = 0; i < subjects.Count; i++)
+            {
+                List<Teacher> possible_teachers = teachers.Where(x => x.subject.name == subjects[i].name).ToList();
+                subjects[i].teacher = possible_teachers.OrderBy(x => x.experience).ToList()[0];
+            }
             
-            for (int i = 0; i < subjects.Length; i++)
+            for (int i = 0; i < subjects.Count; i++)
 			{
                 for (int j = 0; j < periods[i]; j++)
 			    {
@@ -203,7 +239,7 @@ namespace Data
 			    }
 			}
 
-            Subject Free_Period = new Subject("Free Period", 0);
+            Subject Free_Period = new Subject("Free Period", 0, 0);
             while(time_table_data.Count < number_of_days * number_of_periods)
             {
                 time_table_data.Add(Free_Period);
@@ -227,37 +263,59 @@ namespace Data
                 else { importance_ = value; }
             }
         }
+        private int year;
+        public Teacher teacher;
 
         private static List<string> subject_types = new List<string>(); //static list conaining all of the subject names
         private static List<int> subject_popularities = new List<int>(); //static list containing the subjects importance
 
-        public Subject(string name, int importance)
+        public Subject(string name, int importance, int year)
         {
             //Costructor
             this.name = name;
             this.importance = importance;
+            this.year = year;
 
             //If the subject is not already present in the subject types list it is added to the list
             if(!subject_types.Contains(name))
             {
-                subject_types.Add(name);
+                subject_types.Add(name + year);
                 subject_popularities.Add(0);
             }
         }
 
         public void SetPopularity(int num)
         {
-            subject_popularities[subject_types.IndexOf(this.name)] += num;
+            //sets the popularity for a certain subject from the static lists
+            subject_popularities[subject_types.IndexOf(this.name + year)] += num;
         }
-
         public int Get_Popularity()
         {
-            return subject_popularities[subject_types.IndexOf(this.name)];
+            //returns the popularity for a certain subject from the static lists
+            return subject_popularities[subject_types.IndexOf(this.name + year)];
         }
 
+        
         public override string ToString()
         {
-            return name;
+            if(name == "Free Period")
+            {
+                return name;
+            }
+            return name + " (" + teacher.Get_Short_Name() + ")";
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Subject subject &&
+                   name == subject.name &&
+                   importance == subject.importance &&
+                   year == subject.year;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(name, importance_, importance, year);
         }
     }
 }
