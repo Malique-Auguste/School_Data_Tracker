@@ -169,7 +169,6 @@ namespace SchoolData
             }
             return periods;
         }
-
         public List<T> Randomise_List<T>(List<T> list_)
         {
             //Randomly orders list
@@ -184,9 +183,9 @@ namespace SchoolData
 
             return list_;
         }
-        
-        public string Generate_Table_String(List<Subject> data, Student student = null)
+        public string Generate_Table_String(List<Subject> data_, Student student = null)
         {
+            List<Subject> data = data_.ToList();
             string table_string_temp = "";
             if(student != null)
             {
@@ -224,7 +223,7 @@ namespace SchoolData
                 {
                     builder.Append("\n\n");
                 }
-                builder.Append(i + 1);
+                builder.Append("Day "+ (i + 1));
                 for (int j = 0; j < number_of_periods; j++)
                 {
                     int number_of_spaces = number_of_letters[j] - (data[k].ToString().Length - 1);

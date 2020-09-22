@@ -48,7 +48,7 @@ namespace SchoolDataTracker
 
         static Time_Table Initialise_Time_Table()
         {
-            Time_Table time_table = new Time_Table(5, 5, 30, 30, new List<Subject>(){ Math, Physics, Biology, Chemistry, Accounts,
+            Time_Table time_table = new Time_Table(5, 5, 30, 30, new List<Subject>(){ Math, Physics, Biology, Chemistry, Accounts, Geography,
                                                                                     Business, IT, English, Art, Music, Drama});
             for (int i = 0; i < time_table.subjects.Count; i++)
             {
@@ -64,9 +64,15 @@ namespace SchoolDataTracker
             school.time_table.Add(Initialise_Time_Table());
             school.time_table[0].Generate_Time_Table_Data(school.teachers.Where(x => x.years.Contains(1)).ToList());
             Console.WriteLine(school.time_table[0].table_string);
-            Console.WriteLine("\n"+school.students[2]+" time table:");
-            Console.WriteLine(school.time_table[0].Generate_Table_String(school.time_table[0].time_table_data, school.students[2]));
-            Console.WriteLine();
+            
+            while (true)
+            {
+                Console.WriteLine("\nEnter the student whose tiem table you would like to view");
+                int i = int.Parse(Console.ReadLine());
+                Console.WriteLine("\n"+school.students[i]+" time table:");
+                Console.WriteLine(school.time_table[0].Generate_Table_String(school.time_table[0].time_table_data, school.students[i]));
+                Console.WriteLine();
+            }
         }
     }
 }
