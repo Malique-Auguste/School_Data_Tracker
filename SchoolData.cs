@@ -117,7 +117,8 @@ namespace SchoolData
         public List<Teacher> teachers;
         public List<Subject> subjects; //subjects that are in the time table
         public List<Subject> time_table_data = new List<Subject>(); //the order that the subjects are in the time table
-        private string table_string = ""; //the time table in  string yearat
+        public string table_string = ""; //the time table in  string yearat
+        private Subject Free_Period = new Subject("", 0, 0, true);
 
         public Time_Table(int number_of_days, int number_of_periods, float day_start, float period_length, List<Subject> subjects)
         { 
@@ -156,6 +157,16 @@ namespace SchoolData
                 periods.Add(temp);
             }
 
+            float avg_popularity = (float)subjects.Sum(x => x.Get_Popularity()) / subjects.Count;
+            int j = 0;
+            while(periods.Sum() < total_num_of_periods - 1 && j < subjects.Count)
+            {
+                if(subjects[j].importance == 3 || subjects[j].Get_Popularity() > avg_popularity)
+                {
+                    periods[j]++;
+                }
+                j++;
+            }
             return periods;
         }
 
@@ -174,52 +185,60 @@ namespace SchoolData
             return list_;
         }
         
-        public void Print_Table()
+        public string Generate_Table_String(List<Subject> data, Student student = null)
         {
-            if(table_string == "")
+            string table_string_temp = "";
+            if(student != null)
             {
-                //Determines the number of letters in each column s that all the coloumns are spaced out well
-                List<int> number_of_letters = new List<int>();
-                Console.WriteLine();
-                for (int j = 0; j < number_of_periods; j++)
+                for (int i = 0; i < data.Count; i++)
                 {
-                    number_of_letters.Add(0);
-                    for (int i = 0; i < number_of_days; i++)
+                    if(!student.subjects.Contains(data[i]))
                     {
-                        int index = (number_of_periods * i) + j;
-                        if(time_table_data[index].ToString().Length - 1> number_of_letters[j])
-                        {
-                            number_of_letters[j] = time_table_data[index].ToString().Length - 1;
-                        }
+                        data[i] = Free_Period;
                     }
                 }
+            }
 
-                //creates string for table
-                StringBuilder builder = new StringBuilder();
-                int k = 0;
+            //Determines the number of letters in each column s that all the coloumns are spaced out well
+            List<int> number_of_letters = new List<int>();
+            Console.WriteLine();
+            for (int j = 0; j < number_of_periods; j++)
+            {
+                number_of_letters.Add(0);
                 for (int i = 0; i < number_of_days; i++)
                 {
-                    if(i > 0)
+                    int index = (number_of_periods * i) + j;
+                    if(data[index].ToString().Length - 1> number_of_letters[j])
                     {
-                        builder.Append("\n\n");
+                        number_of_letters[j] = data[index].ToString().Length - 1;
                     }
-                    builder.Append(i + 1);
-                    for (int j = 0; j < number_of_periods; j++)
-                    {
-                        int number_of_spaces = number_of_letters[j] - (time_table_data[k].ToString().Length - 1);
-                        builder.Append(" | ");
-                        builder.Append(time_table_data[k]);
-                        builder.Append(new string(' ',number_of_spaces));
-                        k++;
-                    }
-                    builder.Append(" |");
                 }
-                table_string = builder.ToString();
             }
-            
-            Console.WriteLine(table_string);
+
+            //creates string for table
+            StringBuilder builder = new StringBuilder();
+            int k = 0;
+            for (int i = 0; i < number_of_days; i++)
+            {
+                if(i > 0)
+                {
+                    builder.Append("\n\n");
+                }
+                builder.Append(i + 1);
+                for (int j = 0; j < number_of_periods; j++)
+                {
+                    int number_of_spaces = number_of_letters[j] - (data[k].ToString().Length - 1);
+                    builder.Append(" | ");
+                    builder.Append(data[k]);
+                    builder.Append(new string(' ',number_of_spaces));
+                    k++;
+                }
+                builder.Append(" |");
+            }
+            table_string_temp = builder.ToString();
+                
+            return table_string_temp;
         }
-        
         public void Generate_Time_Table_Data(List<Teacher> teachers)
         {
             //generate the time table
@@ -239,13 +258,13 @@ namespace SchoolData
 			    }
 			}
 
-            Subject Free_Period = new Subject("Free Period", 0, 0);
             while(time_table_data.Count < number_of_days * number_of_periods)
             {
                 time_table_data.Add(Free_Period);
             }
             
             time_table_data = Randomise_List(time_table_data);
+            table_string = Generate_Table_String(time_table_data);
         }
     }
 
@@ -265,16 +284,18 @@ namespace SchoolData
         }
         private int year;
         public Teacher teacher;
+        private bool free = false;
 
         private static List<string> subject_types = new List<string>(); //static list conaining all of the subject names
         private static List<int> subject_popularities = new List<int>(); //static list containing the subjects importance
 
-        public Subject(string name, int importance, int year)
+        public Subject(string name, int importance, int year, bool free = false)
         {
             //Costructor
             this.name = name;
             this.importance = importance;
             this.year = year;
+            this.free = free;
 
             //If the subject is not already present in the subject types list it is added to the list
             if(!subject_types.Contains(name))
@@ -298,9 +319,9 @@ namespace SchoolData
         
         public override string ToString()
         {
-            if(name == "Free Period")
+            if(free)
             {
-                return name;
+                return "Free";
             }
             return name + " (" + teacher.Get_Short_Name() + ")";
         }
