@@ -53,7 +53,6 @@ namespace SchoolData
         public Subject subject; //subject that the teacher teaches
         public int experience; //1-3, 3 being a very experienced teacher
         public List<int> years; //years that the teacher teaches
-        public int identification_number=-1;
 
         public Teacher(bool male, string fname, string lname, Subject subject, int experience, List<int> years)
         {
@@ -92,7 +91,6 @@ namespace SchoolData
         public string name; //name of the student
         public int year; //year that the student is in
         public List<Subject> subjects; //subjects that the student studies
-        public int identification_number=-1;
 
         public Student(string name, int year, List<Subject> subjects)
         {
@@ -110,13 +108,12 @@ namespace SchoolData
 
     class Time_Table
     {
-        public int number_of_days; //days that the table spans over
-        public float day_start; //time that the school day starts at
-        public float period_length; //in minutes
-        public int number_of_periods; //per day
-        public List<Teacher> teachers;
+        private int number_of_days; //days that the table spans over
+        private float day_start; //time that the school day starts at
+        private float period_length; //in minutes
+        private int number_of_periods; //per day
         public List<Subject> subjects; //subjects that are in the time table
-        public List<Subject> time_table_data = new List<Subject>(); //the order that the subjects are in the time table
+        private List<Subject> time_table_data = new List<Subject>(); //the order that the subjects are in the time table
         public string table_string = ""; //the time table in  string yearat
         private Subject Free_Period = new Subject("", 0, 0, true);
 
@@ -137,7 +134,7 @@ namespace SchoolData
             this.subjects = subjects;
         }
         
-        public List<int> Generate_Number_Of_Subject_Periods()
+        private List<int> Generate_Number_Of_Subject_Periods()
         {
             //this generates the number of periods that a subject will have in the time table
             subjects.OrderBy(x => x.importance);
@@ -169,7 +166,7 @@ namespace SchoolData
             }
             return periods;
         }
-        public List<T> Randomise_List<T>(List<T> list_)
+        private List<T> Randomise_List<T>(List<T> list_)
         {
             //Randomly orders list
             Random rnd = new Random();
@@ -183,9 +180,9 @@ namespace SchoolData
 
             return list_;
         }
-        public string Generate_Table_String(List<Subject> data_, Student student = null)
+        public string Generate_Table_String(Student student = null)
         {
-            List<Subject> data = data_.ToList();
+            List<Subject> data = time_table_data.ToList();
             string table_string_temp = "";
             if(student != null)
             {
@@ -246,7 +243,7 @@ namespace SchoolData
             for (int i = 0; i < subjects.Count; i++)
             {
                 List<Teacher> possible_teachers = teachers.Where(x => x.subject.name == subjects[i].name).ToList();
-                subjects[i].teacher = possible_teachers.OrderBy(x => x.experience).ToList()[0];
+                subjects[i].teacher_short_name = possible_teachers.OrderBy(x => x.experience).ToList()[0].Get_Short_Name();
             }
             
             for (int i = 0; i < subjects.Count; i++)
@@ -263,7 +260,7 @@ namespace SchoolData
             }
             
             time_table_data = Randomise_List(time_table_data);
-            table_string = Generate_Table_String(time_table_data);
+            table_string = Generate_Table_String();
         }
     }
 
@@ -282,7 +279,7 @@ namespace SchoolData
             }
         }
         private int year;
-        public Teacher teacher;
+        public string teacher_short_name;
         private bool free = false;
 
         private static List<string> subject_types = new List<string>(); //static list conaining all of the subject names
@@ -322,7 +319,7 @@ namespace SchoolData
             {
                 return "Free";
             }
-            return name + " (" + teacher.Get_Short_Name() + ")";
+            return name + " (" + teacher_short_name + ")";
         }
 
         public override bool Equals(object obj)

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 using System.Text;
+using System.IO;
 using SchoolData;
 
 namespace SchoolDataTracker
@@ -58,19 +60,26 @@ namespace SchoolDataTracker
             return time_table;
         }
 
+        static void Save_Data<T>(string file_name, T obj)
+        {
+            string data = JsonConvert.SerializeObject(obj, Formatting.Indented);
+            File.WriteAllText("saved_data/"+file_name+".txt", data);
+        }
+
         static void Main(string[] args)
         {
             Initialise_School();
             school.time_table.Add(Initialise_Time_Table());
             school.time_table[0].Generate_Time_Table_Data(school.teachers.Where(x => x.years.Contains(1)).ToList());
             Console.WriteLine(school.time_table[0].table_string);
-            
+            Save_Data("Teachers", school.teachers);
+            Save_Data("Students", school.students);
             while (true)
             {
-                Console.WriteLine("\nEnter the student whose tiem table you would like to view");
+                Console.WriteLine("\nEnter the student whose time table you would like to view");
                 int i = int.Parse(Console.ReadLine());
                 Console.WriteLine("\n"+school.students[i]+" time table:");
-                Console.WriteLine(school.time_table[0].Generate_Table_String(school.time_table[0].time_table_data, school.students[i]));
+                Console.WriteLine(school.time_table[0].Generate_Table_String(school.students[i]));
                 Console.WriteLine();
             }
         }
