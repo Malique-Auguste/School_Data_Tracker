@@ -62,17 +62,17 @@ namespace ExternalDataManager
                 return false;
             }
 
-            Subject subject;
+            string subject;
             while(true)
             {
                 Console.Write("Subject Name: ");
-                string subject_str = Console.ReadLine();
-                if(subject_str.Contains("exit"))
+                subject = Console.ReadLine();
+                if(subject.Contains("exit"))
                 {
                     return false;
                 }
-                subject = subjects.FirstOrDefault(x => x.name == subject_str);
-                if(subject != null)
+                Subject subject_ = subjects.FirstOrDefault(x => x.name == subject);
+                if(subject_ != null)
                 {
                     break;
                 }

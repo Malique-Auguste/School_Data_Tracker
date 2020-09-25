@@ -3,11 +3,7 @@
     "male": false,
     "fname": "Emily",
     "lname": "Smith",
-    "subject": {
-      "name": "Mathematics",
-      "teacher_short_name": "Ms. E.S",
-      "importance": 3
-    },
+    "subject": "Mathematics",
     "years": [
       1,
       2,
@@ -19,11 +15,7 @@
     "male": true,
     "fname": "Roger",
     "lname": "Ramoutar",
-    "subject": {
-      "name": "Physics",
-      "teacher_short_name": "Mr. R.R",
-      "importance": 3
-    },
+    "subject": "Physics",
     "years": [
       1,
       2,
@@ -36,11 +28,7 @@
     "male": false,
     "fname": "Claire",
     "lname": "Prince",
-    "subject": {
-      "name": "Business",
-      "teacher_short_name": "Ms. C.P",
-      "importance": 2
-    },
+    "subject": "Business",
     "years": [
       1,
       3,
@@ -53,11 +41,7 @@
     "male": false,
     "fname": "Samantha",
     "lname": "Ali",
-    "subject": {
-      "name": "English",
-      "teacher_short_name": "Ms. S.A",
-      "importance": 2
-    },
+    "subject": "English",
     "years": [
       1,
       2,
@@ -70,11 +54,7 @@
     "male": true,
     "fname": "Roger",
     "lname": "Brown",
-    "subject": {
-      "name": "Art",
-      "teacher_short_name": "Mr. R.B",
-      "importance": 1
-    },
+    "subject": "Art",
     "years": [
       1,
       2,
@@ -87,11 +67,7 @@
     "male": true,
     "fname": "James",
     "lname": "Parris",
-    "subject": {
-      "name": "Music",
-      "teacher_short_name": "Mr. J.P",
-      "importance": 1
-    },
+    "subject": "Music",
     "years": [
       1,
       2,
@@ -104,11 +80,7 @@
     "male": false,
     "fname": "Kim",
     "lname": "Parris",
-    "subject": {
-      "name": "Drama",
-      "teacher_short_name": "Ms. K.P",
-      "importance": 1
-    },
+    "subject": "Drama",
     "years": [
       1,
       2,
@@ -121,11 +93,7 @@
     "male": true,
     "fname": "Jonathan",
     "lname": "Ali",
-    "subject": {
-      "name": "I.T",
-      "teacher_short_name": "Mr. J.A",
-      "importance": 2
-    },
+    "subject": "I.T",
     "years": [
       1,
       2,
@@ -138,11 +106,7 @@
     "male": true,
     "fname": "Allan",
     "lname": "Nimble",
-    "subject": {
-      "name": "Biology",
-      "teacher_short_name": "Mr. A.N",
-      "importance": 3
-    },
+    "subject": "Biology",
     "years": [
       1,
       2,
@@ -155,11 +119,7 @@
     "male": true,
     "fname": "Ryker",
     "lname": "Dennis",
-    "subject": {
-      "name": "Chemistry",
-      "teacher_short_name": "Mr. R.D",
-      "importance": 3
-    },
+    "subject": "Chemistry",
     "years": [
       1,
       2,
@@ -172,11 +132,7 @@
     "male": false,
     "fname": "Jenny",
     "lname": "Walay",
-    "subject": {
-      "name": "Accounts",
-      "teacher_short_name": "Ms. J.W",
-      "importance": 2
-    },
+    "subject": "Accounts",
     "years": [
       1,
       2,
@@ -189,11 +145,7 @@
     "male": false,
     "fname": "Aasia",
     "lname": "Vanderpool",
-    "subject": {
-      "name": "Geography",
-      "teacher_short_name": "Ms. A.V",
-      "importance": 2
-    },
+    "subject": "Geography",
     "years": [
       1,
       2,
@@ -204,19 +156,15 @@
   },
   {
     "male": true,
-    "fname": "Jacob",
-    "lname": "Books",
-    "subject": {
-      "name": "Physics",
-      "teacher_short_name": "Mr. R.R",
-      "importance": 3
-    },
+    "fname": "Jeffery",
+    "lname": "Wood",
+    "subject": "Chemistry",
     "years": [
       1,
       2,
-      4,
-      5
+      5,
+      6
     ],
-    "experience": 3
+    "experience": 2
   }
 ]

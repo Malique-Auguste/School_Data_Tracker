@@ -13,7 +13,7 @@ namespace SchoolDataTracker
         static List<Subject> subjects;
         static List<Teacher> teachers;
 
-        /*
+        
         static Subject Math = new Subject("Mathematics", 3, 1);
         static Subject Physics = new Subject("Physics", 3, 1);
         static Subject Biology = new Subject("Biology", 3, 1);
@@ -26,17 +26,17 @@ namespace SchoolDataTracker
         static Subject Art = new Subject("Art", 1, 1);
         static Subject Music = new Subject("Music", 1, 1);
         static Subject Drama = new Subject("Drama", 1, 1);
-        */
+        
 
         static void Initialise_School()
         {
-            /*
-            List<Teacher> teachers_ = new List<Teacher>(){ new Teacher(false, "Emily", "Smith", Math, 2, new List<int>(){1,2,3}), new Teacher(true, "Roger", "Ramoutar", Physics, 3, new List<int>(){1,2,4,5}), 
-                                    new Teacher(false, "Claire", "Prince", Business, 2, new List<int>(){1,3,4,5}),new Teacher(false, "Samantha", "Ali", English, 1, new List<int>(){1,2,5,6}), 
-                                    new Teacher(true, "Roger", "Brown", Art, 2, new List<int>(){1, 2, 3, 4}), new Teacher(true, "James", "Parris", Music, 3, new List<int>(){1,2,3,4}),
-                                    new Teacher(false, "Kim", "Parris", Drama, 1, new List<int>(){1, 2, 3, 4}), new Teacher(true, "Jonathan", "Ali", IT, 3, new List<int>(){1,2,3,4}),
-                                    new Teacher(true, "Allan", "Nimble", Biology, 3, new List<int>(){1, 2, 3, 4}), new Teacher(true, "Ryker", "Dennis", Chemistry, 2, new List<int>(){1,2,3,4}),
-                                    new Teacher(false, "Jenny", "Walay", Accounts, 1, new List<int>(){1, 2, 3, 4}), new Teacher(false, "Aasia", "Vanderpool", Geography, 1, new List<int>(){1, 2, 3, 4})};
+            
+            /*teachers = new List<Teacher>(){ new Teacher(false, "Emily", "Smith", Math.name, 2, new List<int>(){1,2,3}), new Teacher(true, "Roger", "Ramoutar", Physics.name, 3, new List<int>(){1,2,4,5}), 
+                                    new Teacher(false, "Claire", "Prince", Business.name, 2, new List<int>(){1,3,4,5}),new Teacher(false, "Samantha", "Ali", English.name, 1, new List<int>(){1,2,5,6}), 
+                                    new Teacher(true, "Roger", "Brown", Art.name, 2, new List<int>(){1, 2, 3, 4}), new Teacher(true, "James", "Parris", Music.name, 3, new List<int>(){1,2,3,4}),
+                                    new Teacher(false, "Kim", "Parris", Drama.name, 1, new List<int>(){1, 2, 3, 4}), new Teacher(true, "Jonathan", "Ali", IT.name, 3, new List<int>(){1,2,3,4}),
+                                    new Teacher(true, "Allan", "Nimble", Biology.name, 3, new List<int>(){1, 2, 3, 4}), new Teacher(true, "Ryker", "Dennis", Chemistry.name, 2, new List<int>(){1,2,3,4}),
+                                    new Teacher(false, "Jenny", "Walay", Accounts.name, 1, new List<int>(){1, 2, 3, 4}), new Teacher(false, "Aasia", "Vanderpool", Geography.name, 1, new List<int>(){1, 2, 3, 4})};
             List<Student> students_ = new List<Student>(){ new Student("Joshua", 1, new List<Subject>(){ Math, Business, Accounts, English, Music, Art }), 
                                     new Student("Ari", 1, new List<Subject>(){ Math, Physics, Chemistry, English, Art, IT}),
                                     new Student("Katelyn", 1, new List<Subject>(){ English, Music, Art, Drama, Math, Biology}), 
@@ -56,6 +56,7 @@ namespace SchoolDataTracker
         static Time_Table Initialise_Time_Table()
         {
             subjects = DataManager.Load_Data<List<Subject>>("Subjects");
+            //subjects = new List<Subject>(){Math, Physics, Biology, Chemistry, Geography, Business, Accounts, IT, English, Art, Music, Drama};
             Time_Table time_table = new Time_Table(5, 5, 30, 30, subjects);
             for (int i = 0; i < time_table.subjects.Count; i++)
             {
@@ -63,6 +64,76 @@ namespace SchoolDataTracker
             }
             Console.WriteLine("Time Table Initialisation Complete");
             return time_table;
+        }
+
+        static void ViewTimeTable()
+        {
+            while(true)
+            {
+                Console.Write("Would you like to view a (1)student's time table or the time table fo a (2)year:");
+                string option_str = Console.ReadLine();
+                int option;
+                if(int.TryParse(option_str, out option))
+                {
+                    if(option == 1)
+                    {
+                        Console.WriteLine("\nWhich student?: ");
+                        string student_str = Console.ReadLine();
+                        int student_index;
+                        if(int.TryParse(student_str, out student_index))
+                        {
+                            try
+                            {
+                                Console.WriteLine("\n"+school.students[student_index]+" time table:");
+                                Console.WriteLine(school.time_table[0].Generate_Table_String(school.students[student_index]));
+                                break;
+                            }
+                            catch (System.Exception)
+                            {
+                                Console.WriteLine("The student could not be found.");
+                            }
+                        }
+                        else if(student_str.Contains("exit"))
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            try
+                            {
+                                Student student = school.students.FirstOrDefault(x => x.name == student_str);
+                                Console.WriteLine("\n"+student+" time table:");
+                                Console.WriteLine(school.time_table[0].Generate_Table_String(student));
+                                break;
+                            }
+                            catch (System.Exception)
+                            {
+                                Console.WriteLine("The student could not be found.");
+                            }
+                        }
+                    }
+                    else if(option == 2)
+                    {
+                        Console.WriteLine("\nWhich year?: ");
+                        string year_str = Console.ReadLine();
+                        int year;
+                        if(int.TryParse(year_str, out year))
+                        {
+                            Console.WriteLine("Time table for year " + year);
+                            Console.WriteLine(school.time_table[year-1]);
+                        }
+                        else if(year_str.Contains("exit"))
+                        {
+                            return;
+                        }
+                    }
+                }
+                else if(option_str.Contains("exit"))
+                {
+                    return;
+                }
+            }
+
         }
 
         static void Main(string[] args)
@@ -86,6 +157,10 @@ namespace SchoolDataTracker
                         {
 
                         }
+                    }
+                    else if(option == 3)
+                    {
+                        ViewTimeTable();
                     }
                 }
                 else if(option_str.Contains("exit"))

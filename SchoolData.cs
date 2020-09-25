@@ -50,7 +50,7 @@ namespace SchoolData
         public bool male; //false=female
         public string fname; //first name 
         public string lname; //last name
-        public Subject subject; //subject that the teacher teaches
+        public string subject; //subject that the teacher teaches
         private int experience_; //1-3, 3 being a very experienced teacher
         public int experience
         {
@@ -64,7 +64,7 @@ namespace SchoolData
         }
         public List<int> years; //years that the teacher teaches
 
-        public Teacher(bool male, string fname, string lname, Subject subject, int experience, List<int> years)
+        public Teacher(bool male, string fname, string lname, string subject, int experience, List<int> years)
         {
             //Constructor
             this.male = male;
@@ -252,7 +252,7 @@ namespace SchoolData
 
             for (int i = 0; i < subjects.Count; i++)
             {
-                List<Teacher> possible_teachers = teachers.Where(x => x.subject.name == subjects[i].name).ToList();
+                List<Teacher> possible_teachers = teachers.Where(x => x.subject == subjects[i].name).ToList();
                 subjects[i].teacher_short_name = possible_teachers.OrderBy(x => x.experience).ToList()[0].Get_Short_Name();
             }
             
@@ -271,6 +271,11 @@ namespace SchoolData
             
             time_table_data = Randomise_List(time_table_data);
             table_string = Generate_Table_String();
+        }
+
+        public override string ToString()
+        {
+            return table_string;
         }
     }
 
