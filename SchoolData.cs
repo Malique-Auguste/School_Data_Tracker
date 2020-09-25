@@ -51,7 +51,17 @@ namespace SchoolData
         public string fname; //first name 
         public string lname; //last name
         public Subject subject; //subject that the teacher teaches
-        public int experience; //1-3, 3 being a very experienced teacher
+        private int experience_; //1-3, 3 being a very experienced teacher
+        public int experience
+        {
+            get { return experience_; }
+            set
+            {
+                if (value < 1) { experience_ = 1; }
+                else if (value > 3) { experience_ = 3; }
+                else { experience_ = value; }
+            }
+        }
         public List<int> years; //years that the teacher teaches
 
         public Teacher(bool male, string fname, string lname, Subject subject, int experience, List<int> years)

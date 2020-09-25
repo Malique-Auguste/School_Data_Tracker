@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Mathematics",
+    "teacher_short_name": "Ms. E.S",
+    "importance": 3
+  },
+  {
+    "name": "Physics",
+    "teacher_short_name": "Mr. R.R",
+    "importance": 3
+  },
+  {
+    "name": "Biology",
+    "teacher_short_name": "Mr. A.N",
+    "importance": 3
+  },
+  {
+    "name": "Chemistry",
+    "teacher_short_name": "Mr. R.D",
+    "importance": 3
+  },
+  {
+    "name": "Accounts",
+    "teacher_short_name": "Ms. J.W",
+    "importance": 2
+  },
+  {
+    "name": "Geography",
+    "teacher_short_name": "Ms. A.V",
+    "importance": 2
+  },
+  {
+    "name": "Business",
+    "teacher_short_name": "Ms. C.P",
+    "importance": 2
+  },
+  {
+    "name": "I.T",
+    "teacher_short_name": "Mr. J.A",
+    "importance": 2
+  },
+  {
+    "name": "English",
+    "teacher_short_name": "Ms. S.A",
+    "importance": 2
+  },
+  {
+    "name": "Art",
+    "teacher_short_name": "Mr. R.B",
+    "importance": 1
+  },
+  {
+    "name": "Music",
+    "teacher_short_name": "Mr. J.P",
+    "importance": 1
+  },
+  {
+    "name": "Drama",
+    "teacher_short_name": "Ms. K.P",
+    "importance": 1
+  }
+]
