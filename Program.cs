@@ -27,6 +27,8 @@ namespace SchoolDataTracker
 
         static void Initialise_School()
         {
+            /*
+  
             List<Teacher> teachers_ = new List<Teacher>(){ new Teacher(false, "Emily", "Smith", Math, 2, new List<int>(){1,2,3}), new Teacher(true, "Roger", "Ramoutar", Physics, 3, new List<int>(){1,2,4,5}), 
                                     new Teacher(false, "Claire", "Prince", Business, 2, new List<int>(){1,3,4,5}),new Teacher(false, "Samantha", "Ali", English, 1, new List<int>(){1,2,5,6}), 
                                     new Teacher(true, "Roger", "Brown", Art, 2, new List<int>(){1, 2, 3, 4}), new Teacher(true, "James", "Parris", Music, 3, new List<int>(){1,2,3,4}),
@@ -43,8 +45,8 @@ namespace SchoolDataTracker
                                     new Student("Gregory", 1, new List<Subject>(){ English, Art, Drama, IT, Math, Business }),
                                     new Student("Nicholas", 1, new List<Subject>(){ Math, Geography, Biology, Chemistry, Physics, English }),
                                     new Student("Lindsay", 1, new List<Subject>(){ Biology, Chemistry, Math, IT, Art, Accounts})};
-            
-            school = new School("1st Achiever's Secondary School", teachers_, students_);
+            */
+            school = new School("1st Achiever's Secondary School", Load_Data<List<Teacher>>("Teachers"), Load_Data<List<Student>>("Students"));
             Console.WriteLine("School Initialisation Complete");
         }
 
@@ -64,6 +66,12 @@ namespace SchoolDataTracker
         {
             string data = JsonConvert.SerializeObject(obj, Formatting.Indented);
             File.WriteAllText("saved_data/"+file_name+".txt", data);
+        }
+
+        static T Load_Data<T>(string file_name)
+        {
+            string file = File.ReadAllText("saved_data/"+file_name+".txt");
+            return JsonConvert.DeserializeObject<T>(file);
         }
 
         static void Main(string[] args)
