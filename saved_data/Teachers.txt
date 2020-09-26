@@ -166,5 +166,18 @@
       6
     ],
     "experience": 2
+  },
+  {
+    "male": true,
+    "fname": "Jacob",
+    "lname": "Books",
+    "subject": "English",
+    "years": [
+      1,
+      3,
+      4,
+      5
+    ],
+    "experience": 3
   }
 ]

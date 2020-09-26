@@ -207,7 +207,6 @@ namespace SchoolData
 
             //Determines the number of letters in each column s that all the coloumns are spaced out well
             List<int> number_of_letters = new List<int>();
-            Console.WriteLine();
             for (int j = 0; j < number_of_periods; j++)
             {
                 number_of_letters.Add(0);

@@ -70,14 +70,14 @@ namespace SchoolDataTracker
         {
             while(true)
             {
-                Console.Write("Would you like to view a (1)student's time table or the time table fo a (2)year:");
+                Console.Write("State what you would like to view:\n1.A student's time table\n2.The time table for a year\nOption:");
                 string option_str = Console.ReadLine();
                 int option;
                 if(int.TryParse(option_str, out option))
                 {
                     if(option == 1)
                     {
-                        Console.WriteLine("\nWhich student?: ");
+                        Console.Write("\nWhich student?: ");
                         string student_str = Console.ReadLine();
                         int student_index;
                         if(int.TryParse(student_str, out student_index))
@@ -101,39 +101,54 @@ namespace SchoolDataTracker
                         {
                             try
                             {
-                                Student student = school.students.FirstOrDefault(x => x.name == student_str);
+                                Student student = school.students.First(x => x.name == student_str);
                                 Console.WriteLine("\n"+student+" time table:");
                                 Console.WriteLine(school.time_table[0].Generate_Table_String(student));
                                 break;
                             }
                             catch (System.Exception)
                             {
-                                Console.WriteLine("The student could not be found.");
+                                Console.WriteLine("The student could not be found.\n");
                             }
                         }
                     }
                     else if(option == 2)
                     {
-                        Console.WriteLine("\nWhich year?: ");
+                        Console.Write("\nWhich year?: ");
                         string year_str = Console.ReadLine();
                         int year;
                         if(int.TryParse(year_str, out year))
                         {
+                            try
+                            {
                             Console.WriteLine("Time table for year " + year);
                             Console.WriteLine(school.time_table[year-1]);
+                            break;
+                            }
+                            catch
+                            {
+                                Console.WriteLine("A time table for that year does not exist\n");
+                            }
                         }
                         else if(year_str.Contains("exit"))
                         {
                             return;
                         }
                     }
+                    else
+                    {
+                        Console.WriteLine("The option stated was not a number.");
+                    }
                 }
                 else if(option_str.Contains("exit"))
                 {
                     return;
                 }
+                else
+                {
+                    Console.WriteLine("The option stated was not a number.");
+                }
             }
-
         }
 
         static void Main(string[] args)
@@ -142,9 +157,10 @@ namespace SchoolDataTracker
             school.time_table.Add(Initialise_Time_Table());
             school.time_table[0].Generate_Time_Table_Data(school.teachers.Where(x => x.years.Contains(1)).ToList());
             
+            Console.WriteLine("\nType 'exit' at any time to quit");
             while(true)
             {
-                Console.Write("\nWhat would you like to do?\n1.Add Teacher\n2.Add Student\n3.View Time Table\nOption(Type 'exit' at any time to quit): ");
+                Console.Write("\nWhat would you like to do?\n1.Add Teacher\n2.Add Student\n3.View Time Table\nOption: ");
                 string option_str = Console.ReadLine();
                 int option;
                 if(int.TryParse(option_str, out option))
@@ -158,9 +174,17 @@ namespace SchoolDataTracker
 
                         }
                     }
+                    else if(option == 2)
+                    {
+                        Console.WriteLine("Under Construction");
+                    }
                     else if(option == 3)
                     {
                         ViewTimeTable();
+                    }
+                    else
+                    {
+                        Console.WriteLine("The option stated was not a number.");
                     }
                 }
                 else if(option_str.Contains("exit"))

@@ -99,6 +99,10 @@ namespace ExternalDataManager
                 {
                     return false;
                 }
+                else
+                {
+                    Console.WriteLine("Experience was not in crrect format.");
+                }
             }
         
             List<int> years;
@@ -133,7 +137,7 @@ namespace ExternalDataManager
                 }
                 else if(decision == "n")
                 {
-                    Console.WriteLine("Redo entry.");
+                    Console.WriteLine("\nRedo entry.");
                     return true;
                 }
                 else if(decision.Contains("exit"))
@@ -141,9 +145,8 @@ namespace ExternalDataManager
                     return false;
                 }
             }
-            Console.WriteLine(new_teacher.Get_Short_Name());
+            
             teachers.Add(new_teacher);
-            Console.WriteLine(new_teacher.Get_Short_Name());
             Save_Data("Teachers", teachers);
             Console.WriteLine(new_teacher.Get_Short_Name()+" has been added to the directory.");
             return false;
