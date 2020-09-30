@@ -11,7 +11,6 @@ namespace SchoolDataTracker
     {
         static School school;
         static List<Subject> subjects;
-        static List<Teacher> teachers;
 
         
         static Subject Math = new Subject("Mathematics", 3, 1);
@@ -48,8 +47,7 @@ namespace SchoolDataTracker
                                     new Student("Nicholas", 1, new List<Subject>(){ Math, Geography, Biology, Chemistry, Physics, English }),
                                     new Student("Lindsay", 1, new List<Subject>(){ Biology, Chemistry, Math, IT, Art, Accounts})};
             */
-            teachers = DataManager.Load_Data<List<Teacher>>("Teachers");
-            school = new School("1st Achiever's Secondary School", teachers, DataManager.Load_Data<List<Student>>("Students"));
+            school = new School("1st Achiever's Secondary School", DataManager.Load_Data<List<Teacher>>("Teachers"), DataManager.Load_Data<List<Student>>("Students"));
             Console.WriteLine("School Initialisation Complete");
         }
 
@@ -160,7 +158,7 @@ namespace SchoolDataTracker
             Console.WriteLine("\nType 'exit' at any time to quit");
             while(true)
             {
-                Console.Write("\nWhat would you like to do?\n1.Add Teacher\n2.Add Student\n3.View Time Table\nOption: ");
+                Console.Write("\nWhat would you like to do?\n1.Add Teacher\n2.Remove Teacher\n3.Add Student\n4.View Time Table\nOption: ");
                 string option_str = Console.ReadLine();
                 int option;
                 if(int.TryParse(option_str, out option))
@@ -169,22 +167,29 @@ namespace SchoolDataTracker
                     if(option == 1)
                     {
                         //if the return of the function is true, recreate the teacher.
-                        while(DataManager.Add_Teacher(teachers, subjects) == true)
+                        while(DataManager.Add_Teacher(school.teachers, subjects) == true)
                         {
-
                         }
                     }
                     else if(option == 2)
                     {
-                        Console.WriteLine("Under Construction");
+                        while(DataManager.Remove_Teacher(school.teachers) == true)
+                        {
+                        }
                     }
                     else if(option == 3)
+                    {
+                        while(DataManager.Add_Student(school.students, subjects) == true)
+                        {
+                        }
+                    }
+                    else if(option == 4)
                     {
                         ViewTimeTable();
                     }
                     else
                     {
-                        Console.WriteLine("The option stated was not a number.");
+                        Console.WriteLine("Under construction");
                     }
                 }
                 else if(option_str.Contains("exit"))

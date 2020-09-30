@@ -348,5 +348,36 @@
         "importance": 2
       }
     ]
+  },
+  {
+    "name": "Jacob",
+    "year": 1,
+    "subjects": [
+      {
+        "name": "Mathematics",
+        "teacher_short_name": "Ms. E.S",
+        "importance": 3
+      },
+      {
+        "name": "Physics",
+        "teacher_short_name": "Mr. R.R",
+        "importance": 3
+      },
+      {
+        "name": "Biology",
+        "teacher_short_name": "Mr. A.N",
+        "importance": 3
+      },
+      {
+        "name": "Chemistry",
+        "teacher_short_name": "Mr. R.D",
+        "importance": 3
+      },
+      {
+        "name": "English",
+        "teacher_short_name": "Ms. S.A",
+        "importance": 2
+      }
+    ]
   }
 ]
