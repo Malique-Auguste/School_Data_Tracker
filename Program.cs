@@ -135,7 +135,7 @@ namespace SchoolDataTracker
                     }
                     else
                     {
-                        Console.WriteLine("The option stated was not a number.");
+                        Console.WriteLine("The option stated was not valid.");
                     }
                 }
                 else if(option_str.Contains("exit"))
@@ -144,7 +144,7 @@ namespace SchoolDataTracker
                 }
                 else
                 {
-                    Console.WriteLine("The option stated was not a number.");
+                    Console.WriteLine("The option stated was not valid.");
                 }
             }
         }
@@ -158,7 +158,7 @@ namespace SchoolDataTracker
             Console.WriteLine("\nType 'exit' at any time to quit");
             while(true)
             {
-                Console.Write("\nWhat would you like to do?\n1.Add Teacher\n2.Remove Teacher\n3.Add Student\n4.View Time Table\nOption: ");
+                Console.Write("\nWhat would you like to do?\n1.Add Teacher\n2.Remove Teacher\n3.Add Student\n4.Remove Student\n5.View Time Table\nOption: ");
                 string option_str = Console.ReadLine();
                 int option;
                 if(int.TryParse(option_str, out option))
@@ -185,6 +185,12 @@ namespace SchoolDataTracker
                     }
                     else if(option == 4)
                     {
+                        while(DataManager.Remove_Student(school.students, subjects) == true)
+                        {
+                        }
+                    }
+                    else if(option == 5)
+                    {
                         ViewTimeTable();
                     }
                     else
@@ -198,7 +204,7 @@ namespace SchoolDataTracker
                 }
                 else
                 {
-                    Console.WriteLine("The option selected was not a number.");
+                    Console.WriteLine("The option selected was not valid.");
                 }
             }
 

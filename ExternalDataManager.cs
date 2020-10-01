@@ -289,7 +289,7 @@ namespace ExternalDataManager
                     {
                         List<string> all_subjects_strings = all_subjects.Select(x => x.name).ToList();
                         string subjects_not_found = string.Join(", ",subjects_str_list.Where(x => !all_subjects_strings.Contains(x)).ToList());
-                        Console.WriteLine("The subject(s) " + subjects_not_found + "coud not be found");
+                        Console.WriteLine("The subject(s) " + subjects_not_found + " could not be found");
                     }
                 }
                 catch
@@ -321,7 +321,91 @@ namespace ExternalDataManager
             
             students.Add(new_student);
             Save_Data("Students", students);
-            Console.WriteLine(new_student+" has been added to the directory.");
+            Console.WriteLine(new_student+" has been added to the database.");
+            return false;
+        }
+        
+        public static bool Remove_Student(List<Student> students, List<Subject> all_subjects)
+        {
+            //returns true if the fucntion has to be recalled
+            Console.WriteLine("Enter the student's personal information below('exit' can be typed at any time to return to the menu):");
+            
+            Console.Write("Student's Name: ");
+            string name = Console.ReadLine();
+            if(name.Contains("exit"))
+            {
+                return false;
+            }
+
+            int year;
+            while(true)
+            {
+                Console.Write("Year: ");
+                string year_str = Console.ReadLine();
+                if(int.TryParse(year_str, out year))
+                {
+                    break;
+                }
+                else if(year_str.Contains("exit"))
+                {
+                    return false;
+                }
+                else
+                {
+                    Console.WriteLine("Year was not in correct format.");
+                }
+            }
+        
+            while(true)
+            {
+                if(students.Where(x => x.name == name && x.year == year ).ToList().Count == 0)
+                {
+                    Console.WriteLine("That student could not be found in the database.");
+                    while(true)
+                    {
+                        Console.Write("Would you like to re-enter the data(y/n): ");
+                        string decision_ = Console.ReadLine();
+                        if(decision_ == "y")
+                        {
+                            return true;
+                        }
+                        else if(decision_ == "n")
+                        {
+                            Console.WriteLine("\nRedo entry.");
+                            return false;
+                        }
+                        else if(decision_.Contains("exit"))
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            Console.WriteLine("The entered value is not y or n");
+                        }
+                    }
+                }
+
+                Console.Write("Are you sure that you would like to remove the student from the data base(y/n): ");
+                string decision = Console.ReadLine();
+                if(decision == "y")
+                {
+                    break;
+                }
+                else if(decision == "n")
+                {
+                    Console.WriteLine("\nRedo entry.");
+                    return true;
+                }
+                else if(decision.Contains("exit"))
+                {
+                    return false;
+                }
+                Console.WriteLine("The entered value is not y or n");
+            }
+            
+            students.RemoveAll(x => x.name == name && x.year == year );
+            Save_Data("Students", students);
+            Console.WriteLine(name +" has been removed from the database.");
             return false;
         }
         
